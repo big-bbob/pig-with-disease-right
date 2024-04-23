@@ -63,6 +63,7 @@ file sealed class ApplicationHost : BackgroundService
         var cmds = _discordClient.UseSlashCommands(new SlashCommandsConfiguration { Services = _serviceProvider });
         cmds.RegisterCommands<MusicCommands>();
         cmds.RegisterCommands<Hero>();
+        cmds.RegisterCommands<Gamble>();
 
         // connect to discord gateway and initialize node connection
         await _discordClient
