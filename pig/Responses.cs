@@ -55,7 +55,7 @@ namespace Pig
                     result += thingo;
                 }
 
-                var msg = new DiscordMessageBuilder() { Content = content };
+                var msg = new DiscordMessageBuilder() { Content = result };
                 await discordClient.SendMessageAsync(eventArgs.Channel, msg);
                 return;
             }
