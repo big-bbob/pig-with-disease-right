@@ -1,3 +1,5 @@
 /bin
 /obj
+/pig/bin
+/pig/obj
 config.json

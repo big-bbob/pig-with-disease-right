@@ -13,6 +13,8 @@ namespace Pig
     {
         static Random _random = new Random();
 
+        static ulong last;
+
         [SlashCommand("gamble", "Timeout yourself or someone annoying")]
         public async Task GambleCommand(InteractionContext ctx)
         {
@@ -20,7 +22,12 @@ namespace Pig
             int count = PublicConfig.Config.GambleVictims.Count + 1;
             int random = _random.Next(0, count);
 
-            var timeDuration = DateTime.Now + TimeSpan.FromSeconds(10 * 60);
+            var timeDuration = DateTime.Now + TimeSpan.FromSeconds(15 * 60);
+
+            if (!PublicConfig.Config.GambleVictims.Contains(ctx.User.Id))
+            {
+                last = ctx.User.Id;
+            }
 
             if (random == count - 1)
             {
@@ -31,6 +38,14 @@ namespace Pig
             else
             {
                 ulong userId = PublicConfig.Config.GambleVictims[random];
+                timeDuration = DateTime.Now + TimeSpan.FromSeconds(8 * 60);
+
+                if (PublicConfig.Config.GambleVictims.Contains(ctx.User.Id))
+                {
+                    userId = last;
+                    timeDuration = DateTime.Now + TimeSpan.FromSeconds(15 * 60);
+                }
+
                 // You Win
                 if (ctx.Guild.Members.ContainsKey(userId))
                 {
