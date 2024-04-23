@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using System.IO;
+using System;
+using System.Collections.Generic;
+
 
 namespace Pig
 {
@@ -34,6 +38,38 @@ namespace Pig
                 // You loose
                 await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("L + Bozo"));
                 await ctx.Member.TimeoutAsync(timeDuration);
+
+                List<string> lines = new List<string>();
+
+                using (StreamReader sr = new StreamReader("stinky.txt"))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                        string file_id = parts[0];
+                        string amount = parts[1];
+                
+                        string author_id = "your_author_id_here"; 
+                
+                        if (file_id == author_id)
+                        {
+                            int amountInt = int.Parse(amount);
+                            amount = (amountInt + 1).ToString();
+                        }
+                
+                        lines.Add($"{file_id}, {amount}");
+                    }
+                }
+
+                using (StreamWriter sw = new StreamWriter("stinky.txt"))
+                {
+                    foreach (string line in lines)
+                    {
+                        sw.WriteLine(line);
+                    }
+                }
+                
             }
             else
             {
@@ -61,3 +97,15 @@ namespace Pig
         }
     }
 }
+
+
+
+class Program
+{
+    static void Main()
+    {
+        
+    }
+}
+
+
