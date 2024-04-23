@@ -50,7 +50,7 @@ namespace Pig
                         string file_id = parts[0];
                         string amount = parts[1];
                 
-                        string author_id = "your_author_id_here"; 
+                        string author_id = "make it so that the quthors ID goes here. IDK how to do that in c#"; 
                 
                         if (file_id == author_id)
                         {
