@@ -22,8 +22,8 @@ namespace Pig
             if (random == count - 1)
             {
                 // You loose
-                await ctx.Member.TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Idiot");
                 await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("L + Bozo"));
+                await ctx.Member.TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Idiot");
             }
             else
             {
@@ -31,8 +31,8 @@ namespace Pig
                 // You Win
                 if (ctx.Guild.Members.ContainsKey(userId))
                 {
-                    await ctx.Guild.Members[userId].TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Chromosomeless behaviour");
                     await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Wahahaha"));
+                    await ctx.Guild.Members[userId].TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Chromosomeless behaviour");
                 }
                 else
                 {
