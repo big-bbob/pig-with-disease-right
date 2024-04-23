@@ -97,15 +97,3 @@ namespace Pig
         }
     }
 }
-
-
-
-class Program
-{
-    static void Main()
-    {
-        
-    }
-}
-
-
