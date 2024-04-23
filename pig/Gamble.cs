@@ -22,9 +22,6 @@ namespace Pig
 
             var timeDuration = DateTime.Now + TimeSpan.FromSeconds(10 * 60);
 
-            var members = await ctx.Guild.GetAllMembersAsync();
-            Console.WriteLine("Members count:" + members.Count);
-
             if (random == count - 1)
             {
                 // You loose

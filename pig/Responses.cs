@@ -40,6 +40,26 @@ namespace Pig
                 return;
             }
 
+            if (random.NextDouble() <= 0.1)
+            {
+                string content = eventArgs.Message.Content;
+                string result = "";
+                for (int i = 0; i < content.Length; i++)
+                {
+                    string thingo = content[i].ToString().ToLower();
+                    if (random.Next(0, 2) == 0)
+                    {
+                        thingo = thingo.ToUpper();
+                    }
+
+                    result += thingo;
+                }
+
+                var msg = new DiscordMessageBuilder() { Content = content };
+                await discordClient.SendMessageAsync(eventArgs.Channel, msg);
+                return;
+            }
+
             // Word Specific
             if (DateTime.Now.Subtract(shutup).TotalMinutes >= 10)
             {
