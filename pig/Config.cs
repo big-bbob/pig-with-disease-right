@@ -38,6 +38,9 @@ namespace Pig
 
         [JsonPropertyName("chance_responses")]
         public List<string> ChanceResponses { get; set; }
+
+        [JsonPropertyName("gamble_victims")]
+        public List<ulong> GambleVictims { get; set; }
     }
 
     public class PublicConfig
