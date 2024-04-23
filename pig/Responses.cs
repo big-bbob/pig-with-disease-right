@@ -40,7 +40,7 @@ namespace Pig
                 return;
             }
 
-            if (random.NextDouble() <= 0.1)
+            if (random.NextDouble() <= 1)
             {
                 string content = eventArgs.Message.Content;
                 string result = "";
