@@ -40,10 +40,11 @@ namespace Pig
                 return;
             }
 
-            if (random.NextDouble() <= 1)
+            if (random.NextDouble() <= 0.01)
             {
                 string content = eventArgs.Message.Content;
-                string result = "";
+                string result = "\"";
+
                 for (int i = 0; i < content.Length; i++)
                 {
                     string thingo = content[i].ToString().ToLower();
@@ -54,6 +55,8 @@ namespace Pig
 
                     result += thingo;
                 }
+                
+                result += "\"";
 
                 var msg = new DiscordMessageBuilder() { Content = result };
                 await discordClient.SendMessageAsync(eventArgs.Channel, msg);
