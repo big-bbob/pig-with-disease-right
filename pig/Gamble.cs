@@ -24,7 +24,7 @@ namespace Pig
             {
                 // You loose
                 await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("L + Bozo"));
-                await ctx.Member.TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Idiot");
+                await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromMinutes(10), "Idiot");
             }
             else
             {
@@ -33,7 +33,7 @@ namespace Pig
                 if (ctx.Guild.Members.ContainsKey(userId))
                 {
                     await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Wahahaha"));
-                    await ctx.Guild.Members[userId].TimeoutAsync(new DateTimeOffset().AddMinutes(10), "Chromosomeless behaviour");
+                    await ctx.Guild.Members[userId].TimeoutAsync(DateTime.Now + TimeSpan.FromMinutes(10), "Chromosomeless behaviour");
                 }
                 else
                 {
