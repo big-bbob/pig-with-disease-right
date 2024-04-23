@@ -20,11 +20,16 @@ namespace Pig
             int count = PublicConfig.Config.GambleVictims.Count + 1;
             int random = _random.Next(0, count);
 
+            var timeDuration = DateTime.Now + TimeSpan.FromSeconds(10 * 60);
+
+            var members = await ctx.Guild.GetAllMembersAsync();
+            Console.WriteLine("Members count:" + members.Count);
+
             if (random == count - 1)
             {
                 // You loose
                 await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("L + Bozo"));
-                await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromMinutes(10), "Idiot");
+                await ctx.Member.TimeoutAsync(timeDuration);
             }
             else
             {
@@ -33,7 +38,7 @@ namespace Pig
                 if (ctx.Guild.Members.ContainsKey(userId))
                 {
                     await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Wahahaha"));
-                    await ctx.Guild.Members[userId].TimeoutAsync(DateTime.Now + TimeSpan.FromMinutes(10), "Chromosomeless behaviour");
+                    await ctx.Guild.Members[userId].TimeoutAsync(timeDuration);
                 }
                 else
                 {
