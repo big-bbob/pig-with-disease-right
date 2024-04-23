@@ -16,6 +16,7 @@ namespace Pig
         [SlashCommand("gamble", "Timeout yourself or someone annoying")]
         public async Task GambleCommand(InteractionContext ctx)
         {
+            await ctx.DeferAsync().ConfigureAwait(false);
             int count = PublicConfig.Config.GambleVictims.Count + 1;
             int random = _random.Next(0, count);
 
