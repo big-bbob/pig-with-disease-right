@@ -97,16 +97,19 @@ file sealed class ApplicationHost : BackgroundService
     {
         if (PublicConfig.Config.CoolServers.Contains(eventArgs.Guild.Id) && eventArgs.Author.Id != _discordClient.CurrentUser.Id)
         {
-            PublicConfig.msgs.Add(new MsgHist() { time = DateTime.Now, user = eventArgs.Author.Id });
-            PublicConfig.msgs.RemoveAll(x => DateTime.Now.Subtract(x.time).Hours >= 1);
+            if (PublicConfig.msgs[PublicConfig.msgs.Count - 1].user != eventArgs.Author.Id)
+            {
+                PublicConfig.msgs.Add(new MsgHist() { time = DateTime.Now, user = eventArgs.Author.Id });
+                PublicConfig.msgs.RemoveAll(x => DateTime.Now.Subtract(x.time).Hours >= 1);
 
-            if (PublicConfig.msgs.Count > 50)
-            {
-                PublicConfig.ArgumentStatus = true;
-            }
-            else
-            {
-                PublicConfig.ArgumentStatus = false;
+                if (PublicConfig.msgs.Count > 40)
+                {
+                    PublicConfig.ArgumentStatus = true;
+                }
+                else
+                {
+                    PublicConfig.ArgumentStatus = false;
+                }
             }
 
             await Responses.CheckResponses(client, eventArgs);
