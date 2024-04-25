@@ -32,7 +32,7 @@ builder.Services.AddSingleton<DiscordClient>();
 builder.Services.AddSingleton(new DiscordConfiguration { Token = PublicConfig.Config.Token, Intents = DiscordIntents.All });
 
 #if DEBUG
-    
+
 #else
 builder.Services.AddLavalink();
 #endif
@@ -97,19 +97,16 @@ file sealed class ApplicationHost : BackgroundService
     {
         if (PublicConfig.Config.CoolServers.Contains(eventArgs.Guild.Id) && eventArgs.Author.Id != _discordClient.CurrentUser.Id)
         {
-            if (PublicConfig.msgs[PublicConfig.msgs.Count - 1].user != eventArgs.Author.Id)
-            {
-                PublicConfig.msgs.Add(new MsgHist() { time = DateTime.Now, user = eventArgs.Author.Id });
-                PublicConfig.msgs.RemoveAll(x => DateTime.Now.Subtract(x.time).Hours >= 1);
+            PublicConfig.msgs.Add(new MsgHist() { time = DateTime.Now, user = eventArgs.Author.Id });
+            PublicConfig.msgs.RemoveAll(x => DateTime.Now.Subtract(x.time).Hours >= 1);
 
-                if (PublicConfig.msgs.Count > 40)
-                {
-                    PublicConfig.ArgumentStatus = true;
-                }
-                else
-                {
-                    PublicConfig.ArgumentStatus = false;
-                }
+            if (PublicConfig.msgs.FindAll(x => PublicConfig.Config.GambleVictims.Contains(x.user)).Count > 30)
+            {
+                PublicConfig.ArgumentStatus = true;
+            }
+            else
+            {
+                PublicConfig.ArgumentStatus = false;
             }
 
             await Responses.CheckResponses(client, eventArgs);
