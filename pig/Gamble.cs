@@ -23,6 +23,13 @@ namespace Pig
         public async Task GambleCommand(InteractionContext ctx)
         {
             await ctx.CreateResponseAsync(InteractionResponseType.DeferredChannelMessageWithSource);
+
+            if (!PublicConfig.ArgumentStatus)
+            {
+                await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Please gamble responsibly, imagine what you could be spending instead"));
+                return;
+            }
+
             int count = PublicConfig.Config.GambleVictims.Count + 1;
             int random = _random.Next(0, count);
 
@@ -74,7 +81,7 @@ namespace Pig
             else
             {
                 ulong userId = PublicConfig.Config.GambleVictims[random];
-                timeDuration = DateTime.Now + TimeSpan.FromSeconds(8 * 60);
+                timeDuration = DateTime.Now + TimeSpan.FromSeconds(10 * 60);
 
                 if (PublicConfig.Config.GambleVictims.Contains(ctx.User.Id))
                 {
@@ -85,12 +92,12 @@ namespace Pig
                 // You Win
                 if (ctx.Guild.Members.ContainsKey(userId))
                 {
-                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Wahahaha"));
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Average Hero Main"));
                     await ctx.Guild.Members[userId].TimeoutAsync(timeDuration);
                 }
                 else
                 {
-                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Nothing happened?"));
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Oops"));
                 }
             }
 

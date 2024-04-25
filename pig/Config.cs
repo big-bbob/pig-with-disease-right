@@ -43,8 +43,18 @@ namespace Pig
         public List<ulong> GambleVictims { get; set; }
     }
 
+    public class MsgHist
+    {
+        public DateTime time;
+        public ulong user;
+    }
+
     public class PublicConfig
     {
         public static BotConfig Config = new BotConfig();
+
+        public static bool ArgumentStatus = false;
+
+        public static List<MsgHist> msgs = new List<MsgHist>();
     };
 }
