@@ -13,7 +13,7 @@ namespace Pig
     {
         static Random _random = new Random();
 
-        static Dictionary<ulong, List<DateTime>> idiots;
+        static Dictionary<ulong, List<DateTime>> idiots = new Dictionary<ulong, List<DateTime>>();
 
         static ulong last;
 
@@ -25,7 +25,9 @@ namespace Pig
             if (!PublicConfig.ArgumentStatus)
             {
                 if (!idiots.ContainsKey(ctx.Member.Id))
+                {
                     idiots.Add(ctx.Member.Id, new List<DateTime>());
+                }
 
                 idiots[ctx.Member.Id].Add(DateTime.Now);
                 idiots[ctx.Member.Id].RemoveAll(x => DateTime.Now.Subtract(x).Hours > 1);
