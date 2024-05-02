@@ -13,6 +13,8 @@ namespace Pig
     {
         static Random _random = new Random();
 
+        static Dictionary<ulong, List<DateTime>> idiots;
+
         static ulong last;
 
         [SlashCommand("gamble", "Timeout yourself or someone annoying")]
@@ -22,7 +24,22 @@ namespace Pig
 
             if (!PublicConfig.ArgumentStatus)
             {
-                await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Please gamble responsibly, imagine what you could be spending instead"));
+                if (!idiots.ContainsKey(ctx.Member.Id))
+                    idiots.Add(ctx.Member.Id, new List<DateTime>());
+
+                idiots[ctx.Member.Id].Add(DateTime.Now);
+                idiots[ctx.Member.Id].RemoveAll(x => DateTime.Now.Subtract(x).Hours > 1);
+
+                if (idiots[ctx.Member.Id].Count >= 5)
+                {
+                    await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromHours(2));
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Fine  have it your way fucko"));
+                }
+                else
+                {
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Please gamble responsibly, imagine what you could be buying instead"));
+                }
+
                 return;
             }
 
