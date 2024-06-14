@@ -79,6 +79,133 @@ public class MusicCommands : ApplicationCommandModule
         }
     }
 
+    [SlashCommand("myway", description: "Plays My Way")]
+    public async Task PlayWay(InteractionContext interactionContext)
+    {
+        await interactionContext.DeferAsync().ConfigureAwait(false);
+
+        var player = await GetPlayerAsync(interactionContext, connectToVoiceChannel: true).ConfigureAwait(false);
+
+        if (player is null)
+        {
+            return;
+        }
+
+        if (cringeList.Contains(interactionContext.User.Id))
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Nuh uh"))
+                .ConfigureAwait(false);
+        }
+
+        var track = await _audioService.Tracks
+            .LoadTrackAsync("My Way (2008 Remastered)", TrackSearchMode.YouTube)
+            .ConfigureAwait(false);
+
+        if (track is null)
+        {
+            var errorResponse = new DiscordFollowupMessageBuilder()
+                .WithContent("No results.")
+                .AsEphemeral();
+
+            await interactionContext
+                .FollowUpAsync(errorResponse)
+                .ConfigureAwait(false);
+
+            return;
+        }
+
+        var position = await player
+            .PlayAsync(track)
+            .ConfigureAwait(false);
+
+        if (position is 0)
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Playing: {track.Title}"))
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Added to queue: {track.Title}"))
+                .ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("rizz", description: "Rizz")]
+    public async Task PlayRizz(InteractionContext interactionContext)
+    {
+        await interactionContext.DeferAsync().ConfigureAwait(false);
+
+        var player = await GetPlayerAsync(interactionContext, connectToVoiceChannel: true).ConfigureAwait(false);
+
+        if (player is null)
+        {
+            return;
+        }
+
+        if (cringeList.Contains(interactionContext.User.Id))
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Nuh uh"))
+                .ConfigureAwait(false);
+        }
+
+        var track = await _audioService.Tracks
+            .LoadTrackAsync(PublicConfig.Config.RizzMusic, TrackSearchMode.YouTube)
+            .ConfigureAwait(false);
+
+        if (track is null)
+        {
+            var errorResponse = new DiscordFollowupMessageBuilder()
+                .WithContent("No results.")
+                .AsEphemeral();
+
+            await interactionContext
+                .FollowUpAsync(errorResponse)
+                .ConfigureAwait(false);
+
+            return;
+        }
+
+        var position = await player
+            .PlayAsync(track)
+            .ConfigureAwait(false);
+
+        if (position is 0)
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Playing: {track.Title}"))
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await interactionContext
+                .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"Added to queue: {track.Title}"))
+                .ConfigureAwait(false);
+        }
+    }
+
+    [SlashCommand("leave", description: "Leave VC")]
+    public async Task Leave(InteractionContext interactionContext)
+    {
+        await interactionContext.DeferAsync().ConfigureAwait(false);
+
+        var player = await GetPlayerAsync(interactionContext, connectToVoiceChannel: true).ConfigureAwait(false);
+
+        if (player is null)
+        {
+            return;
+        }
+
+        await player.DisconnectAsync();
+
+        await interactionContext
+            .FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"See ya later idiots"))
+            .ConfigureAwait(false);
+    }
+
 
     [SlashCommand("skip", description: "Skip Song in Queue")]
     public async Task Skip(InteractionContext interactionContext)

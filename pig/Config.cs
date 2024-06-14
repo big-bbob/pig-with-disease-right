@@ -41,6 +41,9 @@ namespace Pig
 
         [JsonPropertyName("gamble_victims")]
         public List<ulong> GambleVictims { get; set; }
+
+        [JsonPropertyName("rizz_music")]
+        public string RizzMusic { get; set; }
     }
 
     public class MsgHist
