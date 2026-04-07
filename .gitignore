@@ -1,5 +1,6 @@
 /bin
 /obj
+/publish
 /pig/bin
 /pig/obj
 config.json

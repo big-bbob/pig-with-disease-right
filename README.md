@@ -1,6 +1,19 @@
 # Pig with Disease Right
 Brain rot coming to a discord server near you.
 
+# Build
+Use dotnet publish to build release:
+
+```bash
+dotnet publish -c Release -o publish --no-self-contained
+```
+
+Use podman to build the container:
+
+```bash
+sudo podman build -t pig-bot -f Containerfile .
+```
+
 ## Example `config.json`:
 
 ```json
